@@ -3,7 +3,7 @@ The repository to exercise with docker
 
 All following examples are valid only using the UBUNTU_SERVER as main or parental or physical OS
 First of all, to have an ability to work with docker - install following applications:
-_
+
 sudo apt-get remove docker docker-engine docker.io containerd runc                #To remove the previous versions of docker
 sudo apt-get update                                                               #To update list of connected repositories
 sudo apt-get install apt-transport-https ca-certificates curl gnupg-agent software-properties-common
@@ -18,16 +18,13 @@ sudo docker run hello-world           #To pull and run "hello-world" image and v
 sudo systemctl status docker          #To verify docker daemon is running
 docker -v                             #To check the docker version
 sudo docker ps                        #To list running images
-_
 
 To list all available images in the images repository - just surf the https://hub.docker.com/search?q=&type=image
 or type _docker search {nameOfImage}_ in your shell
 
-_
 docker pull {nameOfImage}                         #To pull specified image
 docker run {nameOfImage}                          #To pull if not pulled and run specified image
-sudo usermod -aG docker $USER; exit               #To add current user to "docker:x:999:" group and relogin
+sudo usermod -aG docker $USER; exit               #To add current user to "docker\:x\:999:" group and relogin
 docker ps                                         #To list running images
 docker images                                     #To list all available local docker images_
 docker image rm --force {image-name:version}      #To remove local image
-_
