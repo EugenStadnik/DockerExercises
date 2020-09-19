@@ -33,4 +33,4 @@ docker run -it -p {outerPort}:{innerPost} {nameOfImage}
 docker ps                                         To list running images
 docker ps -a                                      To show all containers ever ran
 docker images                                     To list all available local docker images_
-docker image rm --force {image-name:version}      To remove local image
+docker image rm --force {name:version}      To remove local image
