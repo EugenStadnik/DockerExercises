@@ -29,7 +29,7 @@ docker pull {nameOfImage}                         To pull specified image
 docker run {nameOfImage}                          To pull if not pulled and run specified image
 docker run -d {nameOfImage}                       To pull if not pulled and run specified image as a deamon
 docker run -it -p {outerPort}:{innerPost} {nameOfImage}
-      To pull if not pulled and run specified image interactivelly and redirect internal conteiner's 8080 port to external 1234
+      To pull if not pulled and run specified image interactivelly and redirect internal conteiner's {innerPort} port to external {outerPort}
 docker ps                                         To list running images
 docker ps -a                                      To show all containers ever ran
 docker images                                     To list all available local docker images_
