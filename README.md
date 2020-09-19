@@ -28,7 +28,7 @@ docker build -t {customImageName}:{customImageVersion} {folderToPlaceImage}
 docker pull {nameOfImage}                         To pull specified image
 docker run {nameOfImage}                          To pull if not pulled and run specified image
 docker run -d {nameOfImage}                       To pull if not pulled and run specified image as a deamon
-docker run -it -p 1234:8080 {nameOfImage}
+docker run -it -p {outerPort}:{innerPost} {nameOfImage}
       To pull if not pulled and run specified image interactivelly and redirect internal conteiner's 8080 port to external 1234
 docker ps                                         To list running images
 docker ps -a                                      To show all containers ever ran
