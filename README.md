@@ -21,16 +21,21 @@ sudo docker ps                        To list running images
 sudo usermod -aG docker $USER; exit   To add current user to "docker:x:999:" group and relogin
 
 To list all available images in the images repository - just surf the https://hub.docker.com/search?q=&type=image
-or type _docker search {nameOfImage}_ in your shell
+or type _docker search {imageName}_ in your shell
 To create your own image configure "Dockerfile" in a separate directory then run:
 docker build -t {customImageName}:{customImageVersion} {folderToPlaceImage}
 
-docker pull {nameOfImage}                         To pull specified image
-docker run {nameOfImage}                          To pull if not pulled and run specified image
-docker run -d {nameOfImage}                       To pull if not pulled and run specified image as a deamon
-docker run -it -p {outerPort}:{innerPost} {nameOfImage}
+docker pull {imageName}                         To pull specified image
+docker images                                   To list all available local docker images
+docker run {imageName}                          To pull if not pulled and run specified image
+docker run -d {imageName}                       To pull if not pulled and run specified image as a deamon
+docker run -it -p {outerPort}:{innerPost} {imageName}
       To pull if not pulled and run specified image interactivelly and redirect internal conteiner's {innerPort} port to external {outerPort}
-docker ps                                         To list running images
-docker ps -a                                      To show all containers ever ran
-docker images                                     To list all available local docker images_
-docker image rm --force {name:version}      To remove local image
+docker ps                                       To list running images
+docker ps -a                                    To show all containers ever ran
+docker stop {cintainerId}                       To gentally stop the container
+docker kill {cintainerId}                       To force stop the container
+
+docker rm {cintainerId}                         To remove container only when it is not running
+docker rmi {imageName:version} | {imageId}      To remove image only when no containers left
+docker image rm --force {imageName:version}     To remove local image without container (decreases hdd free space)
