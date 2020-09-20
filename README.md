@@ -33,8 +33,10 @@ docker images                                   To list all available local dock
 docker tag {imageName}:{imageVersion} {newImageName}:{newImageVersion}      To copy the image
 docker run {imageName}                          To pull if not pulled and run specified image
 docker run -d {imageName}                       To pull if not pulled and run specified image as a deamon
-docker run -it -p {outerPort}:{innerPost} {imageName}
+docker run -it -p {outerPort}:{innerPost} {imageName}:{imageVersion}
       To pull if not pulled and run specified image interactivelly and redirect internal conteiner's {innerPort} port to external {outerPort}
+docker run --name {customContainerName} {imageName}:{imageVersion}
+      To run container with custom container's name
 docker ps                                       To list running images
 docker ps -a                                    To show all containers ever ran
 docker exec {containerName} {shellCMD}          To run commad inside the container
