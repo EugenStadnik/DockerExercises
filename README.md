@@ -44,9 +44,9 @@ docker exec -it {containerName} /bin/bash       To get the container's shell ins
 docker cp {localPathToFile} {cintainerId}:{cintainerPath}     To copy files inside the container instead of scp
 docker cp {cintainerId}:{cintainerPathToFile} {localPath}     To copy file from container to local instead of scp
 docker commit {cintainerId} {newImageName}:{newImageVersion}      To create image from running container saving all it's state
-docker stop {cintainerId}                       To gentally stop the container
-docker kill {cintainerId}                       To force stop the container
-docker start {cintainerId}                      To restart already stoped cotntainer with the all it's state
+docker stop {cintainerId} | {containerName}     To gentally stop the container
+docker kill {cintainerId} | {containerName}     To force stop the container
+docker start {cintainerId} | {containerName}    To restart already stoped cotntainer with the all it's state
 
 docker rm {cintainerId}                         To remove container only when it is not running
 docker rmi {imageName:version} | {imageId}      To remove image only when no containers left
