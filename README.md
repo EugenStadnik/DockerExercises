@@ -33,6 +33,10 @@ docker run -it -p {outerPort}:{innerPost} {imageName}
       To pull if not pulled and run specified image interactivelly and redirect internal conteiner's {innerPort} port to external {outerPort}
 docker ps                                       To list running images
 docker ps -a                                    To show all containers ever ran
+docker exec {containerName} {shellCMD}          To run commad inside the container
+docker exec -it {containerName} /bin/bash       To get the container's shell instead of ssh
+docker cp {localPathToFile} {cintainerId}:{cintainerPath}     To copy files inside the container instead of scp
+docker cp {cintainerId}:{cintainerPathToFile} {localPath}     To copy file from container to local instead of scp
 docker stop {cintainerId}                       To gentally stop the container
 docker kill {cintainerId}                       To force stop the container
 
