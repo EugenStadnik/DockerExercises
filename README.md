@@ -25,8 +25,12 @@ or type _docker search {imageName}_ in your shell
 To create your own image configure "Dockerfile" in a separate directory then run:
 docker build -t {customImageName}:{customImageVersion} {folderToPlaceImage}
 
+docker login -u {userName} -p {password}        To login to docker hub before push and/or pull
+docker push {userName}/{imageName}:{imageVersion}     To push to docker hub
 docker pull {imageName}                         To pull specified image
+docker pull {userName}/{imageName}:{imageVersion}     To pull your own image
 docker images                                   To list all available local docker images
+docker tag {imageName}:{imageVersion} {newImageName}:{newImageVersion}      To copy the image
 docker run {imageName}                          To pull if not pulled and run specified image
 docker run -d {imageName}                       To pull if not pulled and run specified image as a deamon
 docker run -it -p {outerPort}:{innerPost} {imageName}
@@ -37,8 +41,10 @@ docker exec {containerName} {shellCMD}          To run commad inside the contain
 docker exec -it {containerName} /bin/bash       To get the container's shell instead of ssh
 docker cp {localPathToFile} {cintainerId}:{cintainerPath}     To copy files inside the container instead of scp
 docker cp {cintainerId}:{cintainerPathToFile} {localPath}     To copy file from container to local instead of scp
+docker commit {cintainerId} {newImageName}:{newImageVersion}      To create image from running container saving all it's state
 docker stop {cintainerId}                       To gentally stop the container
 docker kill {cintainerId}                       To force stop the container
+docker start {cintainerId}                      To restart already stoped cotntainer with the all it's state
 
 docker rm {cintainerId}                         To remove container only when it is not running
 docker rmi {imageName:version} | {imageId}      To remove image only when no containers left
