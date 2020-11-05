@@ -1,6 +1,7 @@
 # DockerExercises
 The repository to exercise with docker
 
+Observe the study.txt file
 All following examples are valid only using the UBUNTU_SERVER as main or parental or physical OS
 First of all, to have an ability to work with docker - install following applications:
 
