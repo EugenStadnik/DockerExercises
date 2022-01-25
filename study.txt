@@ -23,19 +23,30 @@ sudo usermod -aG docker $USER; exit   To add current user to "docker:x:999:" gro
 
 To create your own image configure "Dockerfile" in a separate directory using followins CMDs:
 To list all available images in the images repository - just surf the https://hub.docker.com/search?q=&type=image
-or type _docker search {imageName}_ in your shell
+or type "docker search {imageName}" in your shell
+FROM, RUN, COPY, and ADD      Instructions such create separate layer
+FROM ubuntu:22.04                           Any Dockerfile should start with FROM and segnificate the base image
+LABEL maintainer="eugenstadnik@gmail.com"   Just a usefull info (metadata) about current image
+ENV ADMIN="eugen"                           To set up environment variables
+RUN sudo apt-get update && sudo apt-get upgrade && sudo apt-get install   To run CMDs on container during start (creates separate layer)
+RUN ["mkdir", "/a_directory"]                                             Just Exec-notation of RUN command
+COPY /path/to/local/folder/localfile.txt /path/to/container/folder/       To copy local files to container virtual drive (will create destination directory when no such)
+ADD https://raw.githubusercontent.com/discdiver/pachy-vid/master/sample_vids/vid1.mp4 \
+/my_app_directory
+CMD ["python", "./my_script.py"]
 
 To manage docker images and containers use following CMDs:
 To create your own image configure "Dockerfile" in a separate directory then run:
-docker build -t {customImageName}:{customImageVersion} {folderToPlaceImage}
-docker login -u {userName} -p {password}        To login to docker hub before push and/or pull
+docker build -t {customImageName}:{customImageVersion} {folderToPlaceImage}                                When Dockerfile is placed in the current directory
+docker build -f {pathToDockerfile} -t {customImageName}:{customImageVersion} {folderToPlaceImage}          When Dockerfile is placed in an other directory
+docker login -u {userName} -p {password}              To login to docker hub before push and/or pull
 docker push {userName}/{imageName}:{imageVersion}     To push to docker hub
-docker pull {imageName}                         To pull specified image
+docker pull {imageName}                               To pull specified image
 docker pull {userName}/{imageName}:{imageVersion}     To pull your own image
-docker images                                   To list all available local docker images
+docker images                                         To list all available local docker images
 docker tag {imageName}:{imageVersion} {newImageName}:{newImageVersion}      To copy the image
-docker run {imageName}                          To pull if not pulled and run specified image
-docker run -d {imageName}                       To pull if not pulled and run specified image as a deamon
+docker run {imageName}                                To pull if not pulled and run specified image
+docker run -d {imageName}                             To pull if not pulled and run specified image as a deamon
 docker run -it -p {outerPort}:{innerPost} {imageName}:{imageVersion}
       To pull if not pulled and run specified image interactivelly and redirect internal conteiner's {innerPort} port to external {outerPort}
 docker run --name {customContainerName} {imageName}:{imageVersion}
