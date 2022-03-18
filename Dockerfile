@@ -4,7 +4,7 @@
 # Made by Yevhen Stadnik 19-September-2020
 #----------------------------------------------------------------------
 
-FROM ubuntu:18.04
+FROM ubuntu:20.04
 
 RUN apt-get -y update
 RUN apt-get -y install apache2
