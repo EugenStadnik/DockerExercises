@@ -1,0 +1,54 @@
+version: '3.8'                        # the version of yaml contract
+                                      # observe https://docs.docker.com/compose/compose-file/compose-file-v3/ for more info
+services:                             # services description area
+
+  apache:                             # just a service name (can be any lowercase alphanumeric charset)
+    container_name: apache-1          # specify a custom container name, rather than a generated default name
+    build:                            # build service from "Dockerfile"
+      context: ./                     # specify path where "Dockerfile" situated
+      dockerfile: Dockerfile          # specify certain "Dockerfile" filename (can be multiple configs)
+      args:                           # forward build time variable values to "Dockerfile" (see Dockerfile)
+      - VAR=VALUE
+      - ANOTHER_VAR=ANOTHER VALUE
+      labels:                         # add metadata to the resulting image
+        - "com.example.description=Accounting webapp"
+        - "com.example.department=Finance"
+        - "com.example.label-with-empty-value"
+      network: host                   # set the network containers connect to for the RUN instructions during build
+    image: apache:1.0                 # this results in image of "apache" with "1.0" to be created
+    ports:                            # ports redirection area
+      - 81:80                         # redirect {domesticPort}:{containerPort}
+    volumes:                          # folders mount actions descriptions
+      - ./static:/var/www/html        # mount files {domesticDirPath}:{containerDestinationFolder}
+
+  db:                                 # just a service name (can be any lowercase alphanumeric charset)
+    image: mysql                      # image name and version (observe dockerhub)
+    restart: always                   # when service fails always restart it [no|always]
+    command: --default-authentication-plugin=mysql_native_password
+                                      # the command should be executed after container is up
+    environment:                      # env variables description
+      MYSQL_ROOT_PASSWORD: 12345      # env variable determination
+      MYSQL_USER: ystadnik
+      MYSQL_PASSWORD: changeMe
+    deploy:
+      replicas: 2
+      placement:
+        max_replicas_per_node: 1
+      update_config:
+        parallelism: 2
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+
+  phpmyadmin:
+    depends_on:                       # will start after specified service started successfully
+      - db                            # specify the service current service dependent on
+    image: phpmyadmin
+    restart: always
+    ports:                            # ports redirection area
+      - 82:80                         # redirect {domesticPort}:{containerPort}
+    environment:
+      - PMA_ARBITRARY=1
+
+# docker compose -f compose.yaml up -d
+# for more info observe https://docs.docker.com/compose/compose-file/compose-file-v3/
