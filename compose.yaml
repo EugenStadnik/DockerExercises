@@ -20,6 +20,14 @@ services:                             # services description area
       - 81:80                         # redirect {domesticPort}:{containerPort}
     volumes:                          # folders mount actions descriptions
       - ./static:/var/www/html        # mount files {domesticDirPath}:{containerDestinationFolder}
+    entrypoint: /code/entrypoint.sh   # overrides entrypoint determined in "Dockerfile" or set when not determined
+    dns_search:                       # Custom DNS search domains. Can be a single value or a list.
+      - 8.8.8.8
+      - 76.76.2.0
+    environment:                      # Add environment variables.
+      - RACK_ENV=development
+      - SHOW=true
+      - SESSION_SECRET
 
   db:                                 # just a service name (can be any lowercase alphanumeric charset)
     image: mysql                      # image name and version (observe dockerhub)
