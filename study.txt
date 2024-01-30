@@ -15,7 +15,8 @@ sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubun
       To add only stable docker repository to the repositories list
 sudo apt-get update                   To update list of connected repositories
 sudo apt-get install docker-ce        To install the docker from attached repositories
-sudo systemctl status docker          To verify docker daemon is running
+sudo systemctl status docker          To check if docker daemon is up and running.
+service docker status                 To check if docker daemon is up and running.
 docker -v                             To check the docker version
 sudo docker run hello-world           To pull and run "hello-world" image and verify containers are run-able
 sudo docker ps                        To list running images
