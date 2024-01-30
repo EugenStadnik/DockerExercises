@@ -71,6 +71,8 @@ docker run -it -p {outerPort}:{innerPost} {imageName}:{imageVersion}
       To pull if not pulled and run specified image interactively and redirect internal container's {innerPort} port to external {outerPort}
 docker run --name {customContainerName} {imageName}:{imageVersion}
       To run container with custom container's name
+      You can use all "docker run" command attributes in any combination
+      ATTENTION each time "docker run" command had invoked a new container has created
 docker ps                                       To list running images
 docker ps -a                                    To show all containers ever ran
 docker exec {containerName} {shellCMD}          To run command inside the container
