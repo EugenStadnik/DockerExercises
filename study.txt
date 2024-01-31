@@ -1,6 +1,8 @@
 # DockerExercises
 The repository to exercise with docker
 
+HOW TO UNINSTALL AND INSTALL:
+
 Observe the study.txt file
 All following examples are valid only using the UBUNTU_SERVER as main or parental or physical OS
 First of all, to have an ability to work with docker - install following applications:
@@ -21,6 +23,8 @@ docker -v                             To check the docker version
 sudo docker run hello-world           To pull and run "hello-world" image and verify containers are run-able
 sudo docker ps                        To list running images
 sudo usermod -aG docker $USER; exit   To add current user to "docker:x:999:" group and re-login
+
+DOCKERFILE ATTRIBUTES:
 
 To create your own image configure "Dockerfile" in a separate directory using followings CMDs:
 To list all available images in the images repository - just surf the https://hub.docker.com/search?q=&type=image
@@ -44,6 +48,8 @@ VOLUME /my_volume
 # Official reference https://docs.docker.com/engine/reference/builder/#dockerfile-reference
 # More instructions https://kapeli.com/cheat_sheets/Dockerfile.docset/Contents/Resources/Documents/index
 
+COMPOSITOR MANAGEMENT:
+
 One more important document to configure docker image(s) is a docker-compose.yaml file
 User can create as many docker-compose-service.yaml, docker-compose-local.yaml, docker-compose-global.yaml files as many configurations needed
 Observe compose.yaml file in the root folder of the project
@@ -55,6 +61,8 @@ docker compose -f ./docker-compose-service.yaml up -d --build       Composes con
                                                                     and start them "up" in a -d(etached) background mode
 For more info refer to https://docs.docker.com/compose/
 
+IMAGE MANAGEMENT:
+
 To manage docker images and containers use following CMDs:
 To create your own image configure "Dockerfile" in a separate directory then run:
 docker build -t {customImageName}:{customImageVersion} {folderToPlaceImage}                                When Dockerfile is placed in the current directory
@@ -65,25 +73,89 @@ docker pull {imageName}                               To pull specified image
 docker pull {userName}/{imageName}:{imageVersion}     To pull your own image
 docker images                                         To list all available local docker images
 docker tag {imageName}:{imageVersion} {newImageName}:{newImageVersion}      To copy the image
-docker run {imageName}                                To pull if not pulled and run specified image
-docker run -d {imageName}                             To pull if not pulled and run specified image as a deamon
+docker run {imageName}                                To pull if not pulled and run specified image in a container
+docker run -d {imageName}                             To pull if not pulled and run specified image in a container as a deamon
 docker run -it -p {outerPort}:{innerPost} {imageName}:{imageVersion}
       To pull if not pulled and run specified image interactively and redirect internal container's {innerPort} port to external {outerPort}
+      Multiple ports can be redirected like "-p {outerPort1}:{innerPost1} -p {outerPort2}:{innerPost2}"
 docker run --name {customContainerName} {imageName}:{imageVersion}
       To run container with custom container's name
+docker run -e VAR_NAME=var-value {imageName}          To pull if not pulled and run specified image in a container setting environment (system) variable
+                                                      Multiple variables can be set like "-e VAR_NAME1=var-value1 -e VAR_NAME2=var-value2"
+docker run --rm {imageName}                           To pull if not pulled and run specified image but automatically remove container after stop
       You can use all "docker run" command attributes in any combination
       ATTENTION each time "docker run" command had invoked a new container has created
+      ATTENTION when no up and running (entry point) application container will stop
+docker rmi {imageName:version} | {imageId}            To remove image only when no containers left
+docker image rm --force {imageName:version}           To remove local image without container (decreases hdd free space)
+docker system prune -a --volumes                      Will delete all stopped containers, delete all volumes
+                                                      , delete all images (to clean all stop all containers before)
+docker run -v /path/to/parental/os/folder:/path/to/container/os/folder:ro {imageName}
+                                                      To pull if not pulled and run specified image
+                                                      mounting parental os folder into container os folder with "ro" (read only) permissions
+                                                      means container have no rights to change anything
+                                                      in /path/to/parental/os/folder but read only
+                                                      The parental OS files will safe after remove related container.
+docker run -v /path/to/container/os/folder {imageName}
+                                                      To pull if not pulled and run specified image
+                                                      creating anonymous mount of /var/lib/docker/volumes/{VOLUME_HASH}/_data
+                                                      parental os folder into container os folder.
+                                                      WARNING parental OS folder will be deleted when
+                                                      remove the related container
+docker run -v {volume_name}:/path/to/container/os/folder {imageName}
+                                                      To pull if not pulled and run specified image
+                                                      creating named mount of /var/lib/docker/volumes/{volume_name}/_data
+                                                      parental os folder into container os folder
+
+CONTAINER MANAGEMENT:
+
 docker ps                                       To list running images
 docker ps -a                                    To show all containers ever ran
 docker exec {containerName} {shellCMD}          To run command inside the container
 docker exec -it {containerName} /bin/bash       To get the container's shell instead of ssh
 docker cp {localPathToFile} {containerId}:{containerPath}     To copy files inside the container instead of scp
 docker cp {containerId}:{containerPathToFile} {localPath}     To copy file from container to local instead of scp
-docker commit {containerId} {newImageName}:{newImageVersion}      To create image from running container saving all it's state
+docker commit {containerId} {newImageName}:{newImageVersion}  To create image from running container saving all it's state
 docker stop {containerId} | {containerName}     To gently stop the container
-docker kill {containerId} | {containerName}     To force stop the container
+docker kill {containerId} | {containerName}     To force stop and destroy the container
 docker start {containerId} | {containerName}    To restart already stopped container with the all it's state
+docker pause {containerId} | {containerName}    To pause the container
+docker unpause {containerId} | {containerName}  To unpause the container
+docker inspect {containerId} | {containerName}  To investigate container details (how been constructed
+                                                , which entry points or cmd commands been invoked during init
+                                                , what ports are redirected, etc)
+docker stats {containerId} | {containerName}    To observe resources container uses
+docker logs {containerId} | {containerName}     To investigate last container's logs
+docker logs -f {containerId} | {containerName}  To investigate real time container's logs
+        All containers are stored in /var/lib/docker/containers/ folder
 
 docker rm {containerId}                         To remove container only when it is not running
 docker rmi {imageName:version} | {imageId}      To remove image only when no containers left
 docker image rm --force {imageName:version}     To remove local image without container (decreases hdd free space)
+docker system prune -a --volumes                Will delete all stopped containers, delete all volumes
+                                                , delete all images (to clean all stop all containers before)
+
+VOLUME MANAGEMENT:
+
+WARNING after container destroyed the container's related data (DB dump, files been produced by container, etc) are no longer available
+To avoid that use persistent data approach
+docker run -v /path/to/parental/os/folder:/path/to/container/os/folder:ro {imageName}
+                                                To pull if not pulled and run specified image
+                                                mounting parental os folder into container os folder with "ro" (read only) permissions
+                                                means container have no rights to change anything in /path/to/parental/os/folder but read only
+                                                The parental OS files will safe after remove related container.
+docker run -v /path/to/container/os/folder {imageName}
+                                                To pull if not pulled and run specified image
+                                                creating anonymous mount of /var/lib/docker/volumes/{VOLUME_HASH}/_data
+                                                parental os folder into container os folder. WARNING parental OS folder will be deleted when
+                                                remove the related container
+docker run -v {volume_name}:/path/to/container/os/folder {imageName}
+                                                To pull if not pulled and run specified image
+                                                creating named mount of /var/lib/docker/volumes/{volume_name}/_data
+                                                parental os folder into container os folder
+docker volume ls                                To list all available volumes. The parental OS files will safe after remove related container.
+docker volume create {newVolumeName}            To create volume in the /var/lib/docker/volumes/{newVolumeName}/_data such doesn't mounted to any container folder
+docker volume rm {volumeName}                   To remove useless volume
+docker volume inspect {volume_name}             To figure out which anonymous volume belongs to which container. Especially useful for anonymous volumes
+
+NETWORK MANAGEMENT:
