@@ -48,6 +48,11 @@ VOLUME /my_volume
 # Official reference https://docs.docker.com/engine/reference/builder/#dockerfile-reference
 # More instructions https://kapeli.com/cheat_sheets/Dockerfile.docset/Contents/Resources/Documents/index
 
+DOCKER HELP:
+
+docker --help                     To invoke basic docker help.
+docker {command_name} --help      To invoke command specific "man" page. List of all available {command_name}s can be retrieved using previous command.
+
 COMPOSITOR MANAGEMENT:
 
 One more important document to configure docker image(s) is a docker-compose.yaml file
